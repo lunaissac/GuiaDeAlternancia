@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+     
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+    
+      xmlns:p="http://primefaces.org/ui"
+      >
+
+    <body>
+
+        <ui:composition template="./WEB-INF/Templates/Plantilla.xhtml">
+
+            <ui:define name="content">
+                <f:event type="preRenderView" listener="#{monitorBean.listar('F')}"/>
+             <p:growl id="msj" autoUpdate="true"/>
+        <h:form id="frm">
+        
+            <p:commandButton value="Nuevo" oncomplete="PF('wdlgDatos').show();" actionListener="#{monitorBean.setAccion('Registrar')}" update=":dlgDatos"/>
+                         
+                         
+            <p:dataTable id="data" value="#{monitorBean.listMonitors}" var="persona">
+                             <p:column headerText="Nombre">
+                                 <p:outputLabel value="#{persona.nombre}"/>
+                                 
+                             </p:column>
+                              <p:column headerText="Apellido">
+                                  <p:outputLabel value="#{persona.apellido}"/>
+                                 
+                             </p:column>
+                               <p:column headerText="Dni">
+                                   <p:outputLabel value="#{persona.dni}"/>
+                                 
+                             </p:column>
+                               <p:column headerText="Email">
+                                   <p:outputLabel value="#{persona.email}"/>
+                                 
+                             </p:column>
+                               <p:column headerText="Telefono">
+                                   <p:outputLabel value="#{persona.telf}"/>
+                                 
+                             </p:column>
+                               <p:column headerText="Direccion">
+                                   <p:outputLabel value="#{persona.dir}"/>
+                                 
+                             </p:column>
+                             <p:column headerText="Modificar">
+                                 <p:commandLink value="Modificar" actionListener="#{monitorBean.leerID(persona)}" oncomplete="PF('wdlgDatos').show();" update=":dlgDatos"/>
+                             </p:column>
+                             <p:column headerText="Eliminar">
+                                 <p:commandLink value="Eliminar" actionListener="#{monitorBean.EliminarID(persona)}" update="data"/>
+                             </p:column>
+                         </p:dataTable>
+
+        </h:form>
+       
+          
+        <p:dialog header="Datos" widgetVar="wdlgDatos" id="dlgDatos">
+             <h:form>
+                   <p:outputLabel value="Nombre" />
+                   <p:inputText  value="#{monitorBean.monitor.nombre}"/>
+                            <p:outputLabel value="Apellido" />
+                            <p:inputText  value="#{monitorBean.monitor.apellido}"/>
+                      <p:outputLabel value="Dni" />
+                      <p:inputText  value="#{monitorBean.monitor.dni}"/>
+                      <p:outputLabel value="Email" />
+                      <p:inputText  value="#{monitorBean.monitor.email}"/>
+                      <p:outputLabel value="Telefono" />
+                      <p:inputText  value="#{monitorBean.monitor.telf}"/>
+                      <p:outputLabel value="Dir" />
+                      <p:inputText  value="#{monitorBean.monitor.dir}"/>
+                      
+                      <p:commandButton value="#{monitorBean.accion}" actionListener="#{monitorBean.operar()}" oncomplete="PF('wdlgDatos').hide();" update=":frm:data"/>
+                         <p:commandButton value="Cancelar" immediate="true"  oncomplete="PF('wdlgDatos').hide();"/>  
+            </h:form>
+            
+        </p:dialog>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
